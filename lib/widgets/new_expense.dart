@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  final void Function(Expense) addNewExpense;
+  const NewExpense({super.key, required this.addNewExpense});
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -40,6 +41,7 @@ class _NewExpenseState extends State<NewExpense> {
     final enteredAmt = double.tryParse(
         _amtController.text); //try parse return null if not possible
     final amountIsInvalid = enteredAmt == null || enteredAmt <= 0;
+    //VALIDATION
     if (_titleController.text.trim().isEmpty ||
         amountIsInvalid ||
         _selectedDate == null) {
@@ -60,6 +62,18 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
+    //VALID DATA
+    Expense newExpense = Expense(
+      title: _titleController.text.trim(),
+      amount: enteredAmt,
+      date: _selectedDate!,
+      category: _selectedCategory!,
+    );
+    //add it to the list
+    setState(() {
+      widget.addNewExpense(newExpense);
+    });
+    Navigator.pop(context);
   }
 
   @override
