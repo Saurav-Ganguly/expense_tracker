@@ -149,7 +149,7 @@ class _NewExpenseState extends State<NewExpense> {
               },
             ),
             const Spacer(),
-            ElevatedButton(
+            TextButton(
               onPressed: () {
                 //closes the overlay
                 Navigator.pop(context);
